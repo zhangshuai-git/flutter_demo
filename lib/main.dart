@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
       home: new RandomWords(),
     );
   }
-
 }
 
 class RandomWords extends StatefulWidget {
@@ -20,13 +19,15 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
+  final _suggestions = List<WordPair>.from(generateWordPairs().take(30));
+
+  final _saved = new Set<WordPair>();
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold (
+    return new Scaffold(
       appBar: new AppBar(
         title: new Text('Startup Name Generator'),
       ),
@@ -36,6 +37,7 @@ class RandomWordsState extends State<RandomWords> {
 
   Widget _buildSuggestions() {
     return new ListView.builder(
+        itemCount: _suggestions.length * 2,
         padding: const EdgeInsets.all(16.0),
         // 对于每个建议的单词对都会调用一次itemBuilder，然后将单词对添加到ListTile行中
         // 在偶数行，该函数会为单词对添加一个ListTile row.
@@ -49,24 +51,35 @@ class RandomWordsState extends State<RandomWords> {
           // 时，结果为0, 1, 1, 2, 2， 这可以计算出ListView中减去分隔线后的实际单词对数量
           final index = i ~/ 2;
           // 如果是建议列表中最后一个单词对
-          if (index >= _suggestions.length) {
-            // ...接着再生成10个单词对，然后添加到建议列表
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
+//          if (index >= _suggestions.length) {
+//            // ...接着再生成10个单词对，然后添加到建议列表
+//            _suggestions.addAll(generateWordPairs().take(10));
+//          }
           return _buildRow(_suggestions[index]);
-        }
-    );
+        });
   }
 
   Widget _buildRow(WordPair pair) {
+    final alreadySaved = _saved.contains(pair);
+
     return new ListTile(
       title: new Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
+      trailing: new Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadySaved ? Colors.red : null,
+      ),
+      onTap: () {
+        setState(() {
+          if (alreadySaved) {
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      },
     );
   }
-
-
 }
-
