@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:rxdart/rxdart.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,11 +23,11 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
-  final _suggestions = List<WordPair>.from(generateWordPairs().take(30));
+  final List<WordPair> _suggestions = List<WordPair>.from(generateWordPairs().take(30));
 
-  final _saved = new Set<WordPair>();
+  final Set<WordPair> _saved = new Set<WordPair>();
 
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+  final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,7 @@ class RandomWordsState extends State<RandomWords> {
   }
 
   Widget _buildRow(WordPair pair) {
-    final alreadySaved = _saved.contains(pair);
+    final bool alreadySaved = _saved.contains(pair);
 
     return new ListTile(
       title: new Text(
