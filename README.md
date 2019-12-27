@@ -1,6 +1,6 @@
 # flutter_demo1
 
-A new Flutter project.
+A Flutter project with RxDart.
 
 ## Getting Started
 
