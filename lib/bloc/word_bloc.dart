@@ -1,5 +1,5 @@
 import 'package:english_words/english_words.dart';
-import 'package:flutter_demo1/entity.dart';
+import 'package:flutter_demo1/model/entity.dart';
 
 class WordBloc {
   final List<Word> suggestions = [];

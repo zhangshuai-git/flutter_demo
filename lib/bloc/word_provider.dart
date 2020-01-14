@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'word_bloc.dart';
+import 'package:flutter_demo1/bloc/word_bloc.dart';
 
 class WordProvider extends InheritedWidget {
   WordProvider({Key key, WordBloc wordBloc, Widget child,}) : wordBloc = wordBloc ?? WordBloc(), super(key: key, child: child);

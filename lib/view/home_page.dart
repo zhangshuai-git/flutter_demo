@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
-import 'package:flutter_demo1/entity.dart';
-import 'package:flutter_demo1/favorite_page.dart';
-import 'package:flutter_demo1/word_bloc.dart';
-import 'package:flutter_demo1/word_provider.dart';
+import 'package:flutter_demo1/bloc/word_bloc.dart';
+import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/view/favorite_page.dart';
+import 'package:flutter_demo1/bloc/word_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo1/word_bloc.dart';
-import 'package:flutter_demo1/word_provider.dart';
+import 'package:flutter_demo1/bloc/word_bloc.dart';
+import 'package:flutter_demo1/bloc/word_provider.dart';
 
 class FavoritePage extends StatelessWidget {
   static const String routeName = '/favorite';

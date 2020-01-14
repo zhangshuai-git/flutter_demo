@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo1/favorite_page.dart';
-import 'package:flutter_demo1/word_provider.dart';
-import 'home_page.dart';
+import 'package:flutter_demo1/view/favorite_page.dart';
+import 'package:flutter_demo1/bloc/word_provider.dart';
+import 'view/home_page.dart';
 
 void main() => runApp(MyApp());
 
