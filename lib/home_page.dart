@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter_demo1/entity.dart';
 import 'package:flutter_demo1/favorite_page.dart';
+import 'package:flutter_demo1/word_bloc.dart';
 import 'package:flutter_demo1/word_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final wordBloc = WordProvider.of(context);
+    final WordBloc wordBloc = WordProvider.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
@@ -36,11 +37,9 @@ class HomePage extends StatelessWidget {
         return _buildRow(suggestions[index]);
       });
 
-  Widget _buildRow(Word word) {
-    return StreamBuilder<bool>(
-        stream: word.isFavorite.stream,
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          return ListTile(
+  Widget _buildRow(Word word) => StreamBuilder<bool>(
+      stream: word.isFavorite.stream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) => ListTile(
             title: Text(
               word.wordPair.asPascalCase,
               style: TextStyle(fontSize: 18.0),
@@ -50,7 +49,5 @@ class HomePage extends StatelessWidget {
               color: word.isFavorite.value ? Colors.red : null,
             ),
             onTap: () => word.isFavorite.add(!word.isFavorite.value),
-          );
-        });
-  }
+          ));
 }

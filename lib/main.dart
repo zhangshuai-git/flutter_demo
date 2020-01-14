@@ -8,14 +8,12 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => WordProvider(
-    child: MaterialApp(
-      theme: ThemeData(primaryColor: Colors.lightBlueAccent),
-      home: HomePage(),
-      routes: <String, WidgetBuilder>{
-        FavoritePage.routeName : (context) => FavoritePage()
-      },
-    ),
-  );
+        child: MaterialApp(
+          theme: ThemeData(primaryColor: Colors.lightBlueAccent),
+          home: HomePage(),
+          routes: <String, WidgetBuilder>{
+            FavoritePage.routeName: (context) => FavoritePage()
+          },
+        ),
+      );
 }
-
-
