@@ -21,20 +21,20 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: _buildListView(wordBloc.suggestions),
+      body: _buildListView(wordBloc.wordList),
     );
   }
 
-  Widget _buildListView(List<Word> suggestions) => ListView.builder(
+  Widget _buildListView(List<Word> wordList) => ListView.builder(
 //      itemCount: wordBloc.suggestions.length * 2,
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
         if (i.isOdd) return Divider();
-        final index = i ~/ 2;
-        if (index >= suggestions.length) {
-          suggestions.addAll(generateWordPairs().take(10).map((wordPair) => Word(wordPair, BehaviorSubject.seeded(false))));
+        final int index = i ~/ 2;
+        if (index >= wordList.length) {
+          wordList.addAll(generateWordPairs().take(10).map((wordPair) => Word(wordPair, BehaviorSubject.seeded(false))));
         }
-        return _buildRow(suggestions[index]);
+        return _buildRow(wordList[index]);
       });
 
   Widget _buildRow(Word word) => StreamBuilder<bool>(

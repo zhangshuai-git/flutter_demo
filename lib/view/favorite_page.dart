@@ -8,7 +8,7 @@ class FavoritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final WordBloc wordBloc = WordProvider.of(context);
-    final Iterable<ListTile> tiles = wordBloc.saved.map((pair) => ListTile(
+    final Iterable<ListTile> tiles = wordBloc.favoriteList.map((pair) => ListTile(
           title: Text(
             pair.asPascalCase,
             style: TextStyle(fontSize: 18.0),
