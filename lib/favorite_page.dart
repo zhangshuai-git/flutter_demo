@@ -12,7 +12,7 @@ class FavoritePage extends StatelessWidget {
     final Iterable<ListTile> tiles = wordBloc.saved.map((pair) => ListTile(
           title: Text(
             pair.asPascalCase,
-            style: wordBloc.biggerFont,
+            style: const TextStyle(fontSize: 18.0),
           ),
         ));
     final List<Widget> divided = ListTile.divideTiles(

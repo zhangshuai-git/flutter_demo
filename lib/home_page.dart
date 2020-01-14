@@ -21,12 +21,12 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: _buildListView(wordBloc),
+      body: _buildListView(wordBloc.suggestions),
     );
   }
 
-  Widget _buildListView(WordBloc wordBloc) => ListView.builder(
-      itemCount: wordBloc.suggestions.length * 2,
+  Widget _buildListView(List<Word> suggestions) => ListView.builder(
+//      itemCount: wordBloc.suggestions.length * 2,
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
         // 在每一列之前，添加一个1像素高的分隔线widget
@@ -34,8 +34,12 @@ class HomePage extends StatelessWidget {
         // 语法 "i ~/ 2" 表示i除以2，但返回值是整形（向下取整），比如i为：1, 2, 3, 4, 5
         // 时，结果为0, 1, 1, 2, 2， 这可以计算出ListView中减去分隔线后的实际单词对数量
         final index = i ~/ 2;
-        print('i:$i, index: $index, pair: ${wordBloc.suggestions[index].wordPair}, isFavorite: ${wordBloc.suggestions[index].isFavorite.value}');
-        return _buildRow(wordBloc, wordBloc.suggestions[index]);
+//        print('i:$i, index: $index, pair: ${wordBloc.suggestions[index].wordPair}, isFavorite: ${wordBloc.suggestions[index].isFavorite.value}');
+        if (index >= suggestions.length) {
+          // ...接着再生成10个单词对，然后添加到建议列表
+          suggestions.addAll(generateWordPairs().take(10).map((wordPair) => Word(wordPair, BehaviorSubject.seeded(false))));
+        }
+        return _buildRow(suggestions[index]);
 //        return StreamBuilder<Word>(
 //          stream: wordBloc.suggestions[index].stream,
 //          builder: (BuildContext context, AsyncSnapshot<Word> snapshot) {
@@ -44,21 +48,21 @@ class HomePage extends StatelessWidget {
 //        );
       });
 
-  Widget _buildRow(WordBloc wordBloc, Word word) {
+  Widget _buildRow(Word word) {
     return StreamBuilder<bool>(
         stream: word.isFavorite.stream,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          print('pair: ${word.wordPair}, isFavorite: ${word.isFavorite.value}');
+//          print('pair: ${word.wordPair}, isFavorite: ${word.isFavorite.value}, snapshot.data: ${snapshot.data}');
           return ListTile(
             title: Text(
               word.wordPair.asPascalCase,
-              style: wordBloc.biggerFont,
+              style: const TextStyle(fontSize: 18.0),
             ),
             trailing: Icon(
-              snapshot.data ? Icons.favorite : Icons.favorite_border,
-              color: snapshot.data ? Colors.red : null,
+              word.isFavorite.value ? Icons.favorite : Icons.favorite_border,
+              color: word.isFavorite.value ? Colors.red : null,
             ),
-            onTap: () => word.isFavorite.add(!snapshot.data),
+            onTap: () => word.isFavorite.add(!word.isFavorite.value),
           );
         });
   }
