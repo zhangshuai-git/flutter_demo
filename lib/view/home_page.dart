@@ -3,13 +3,13 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter_demo1/bloc/word_bloc.dart';
 import 'package:flutter_demo1/model/entity.dart';
 import 'package:flutter_demo1/view/favorite_page.dart';
-import 'package:flutter_demo1/bloc/word_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatelessWidget {
+   final WordBloc wordBloc = WordBloc();
+
   @override
   Widget build(BuildContext context) {
-    final WordBloc wordBloc = WordProvider.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.list),
             onPressed: () =>
-                Navigator.of(context).pushNamed(FavoritePage.routeName),
+                Navigator.of(context).pushNamed(FavoritePage.routeName, arguments: wordBloc.favoriteList),
           )
         ],
       ),
