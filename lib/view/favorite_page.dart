@@ -19,6 +19,7 @@ class FavoritePage extends StatelessWidget {
     ).toList();
     return Scaffold(
       appBar: AppBar(
+        brightness: Brightness.dark,
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
           'Saved Suggestions',

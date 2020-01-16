@@ -9,9 +9,9 @@ class HomePage extends StatelessWidget {
   final WordBloc wordBloc = WordBloc();
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
+        brightness: Brightness.dark,
         title: Text(
           'Startup Name Generator',
           style: TextStyle(color: Colors.white),
@@ -28,7 +28,6 @@ class HomePage extends StatelessWidget {
       ),
       body: _buildListView(wordBloc.wordList),
     );
-  }
 
   Widget _buildListView(List<Word> wordList) => ListView.builder(
 //      itemCount: wordBloc.suggestions.length * 2,
