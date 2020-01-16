@@ -9,7 +9,4 @@ class WordBloc {
       .map((it) => it.wordPair)
       .toSet();
 
-  void dispose() {
-    wordList.forEach((it) => it.isFavorite.close());
-  }
 }
