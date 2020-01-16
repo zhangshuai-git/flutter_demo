@@ -16,8 +16,7 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.list),
-            onPressed: () =>
-                Navigator.of(context).pushNamed(FavoritePage.routeName, arguments: wordBloc.favoriteList),
+            onPressed: () => Navigator.of(context).pushNamed(FavoritePage.routeName, arguments: wordBloc.favoriteList),
           )
         ],
       ),

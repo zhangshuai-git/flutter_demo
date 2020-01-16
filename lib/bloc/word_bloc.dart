@@ -8,5 +8,4 @@ class WordBloc {
       .where((it) => it.isFavorite.value)
       .map((it) => it.wordPair)
       .toSet();
-
 }
