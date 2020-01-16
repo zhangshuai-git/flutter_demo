@@ -6,7 +6,7 @@ import 'package:flutter_demo1/view/favorite_page.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatelessWidget {
-   final WordBloc wordBloc = WordBloc();
+  final WordBloc wordBloc = WordBloc();
 
   @override
   Widget build(BuildContext context) {
