@@ -12,10 +12,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: Text(
+          'Startup Name Generator',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.list),
+            icon: Icon(
+              Icons.list,
+              color: Colors.white,
+            ),
             onPressed: () => Navigator.of(context).pushNamed(FavoritePage.routeName, arguments: wordBloc.favoriteList),
           )
         ],
