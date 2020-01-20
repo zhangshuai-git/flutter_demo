@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatelessWidget {
   final WordBloc wordBloc = WordBloc();
-  final refreshFinished = BehaviorSubject<void>.seeded(null);
+  final BehaviorSubject<void> refreshFinished = BehaviorSubject<void>.seeded(null);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
     body: _buildListView(wordBloc.wordList),
   );
 
-  Widget _buildListView(List<Word> wordList) => StreamBuilder<void>(
+  Widget _buildListView(final List<Word> wordList) => StreamBuilder<void>(
     stream: refreshFinished.stream,
     builder: (context, snapshot) => EasyRefresh(
       child: ListView.builder(
@@ -51,14 +51,17 @@ class HomePage extends StatelessWidget {
       },
       onLoad: () async {
         await Future.delayed(Duration(seconds: 2), () {
-          wordList.addAll(generateWordPairs().take(10).map((wordPair) => Word(wordPair, BehaviorSubject.seeded(false))));
+          if (wordList.length < 30) {
+            wordList.addAll(generateWordPairs().take(10).map((wordPair) => Word(wordPair, BehaviorSubject.seeded(false))));
+          }
           refreshFinished.add(null);
         });
       },
+      footer: ClassicalFooter(loadedText: wordList.length < 30 ? "Load completed" : "No more"),
     ),
   );
 
-  Widget _buildRow(Word word) => StreamBuilder<bool>(
+  Widget _buildRow(final Word word) => StreamBuilder<bool>(
     stream: word.isFavorite.stream,
     builder: (context, snapshot) => ListTile(
       title: Text(
