@@ -44,7 +44,8 @@ class HomePage extends StatelessWidget {
         }),
       onRefresh: () async {
         await Future.delayed(Duration(seconds: 2), () {
-          wordList.removeRange(10, wordList.length);
+          wordList.removeRange(0, wordList.length);
+          wordList.addAll(generateWordPairs().take(10).map((wordPair) => Word(wordPair, BehaviorSubject.seeded(false))));
           refreshFinished.add(null);
         });
       },
