@@ -8,11 +8,11 @@ class FavoritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Set<WordPair> favoriteList = ModalRoute.of(context).settings.arguments;
     final Iterable<ListTile> tiles = favoriteList.map((pair) => ListTile(
-          title: Text(
-            pair.asPascalCase,
-            style: TextStyle(fontSize: 18.0),
-          ),
-        ));
+      title: Text(
+        pair.asPascalCase,
+        style: TextStyle(fontSize: 18.0),
+      ),
+    ));
     final List<Widget> divided = ListTile.divideTiles(
       context: context,
       tiles: tiles,
