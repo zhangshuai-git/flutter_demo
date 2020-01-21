@@ -1,15 +1,15 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_demo1/model/entity.dart';
 
 class FavoritePage extends StatelessWidget {
   static const String routeName = '/favorite';
 
   @override
   Widget build(BuildContext context) {
-    final Set<WordPair> favoriteList = ModalRoute.of(context).settings.arguments;
-    final Iterable<ListTile> tiles = favoriteList.map((pair) => ListTile(
+    final List<Repository> favoriteList = ModalRoute.of(context).settings.arguments;
+    final Iterable<ListTile> tiles = favoriteList.map((repository) => ListTile(
       title: Text(
-        pair.asPascalCase,
+        repository.name,
         style: TextStyle(fontSize: 18.0),
       ),
     ));

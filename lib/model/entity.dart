@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:english_words/english_words.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -43,10 +44,18 @@ class Repositories {
 
   int get totalPage => totalCount ~/ 10;
 
+  Repositories operator +(Repositories other) {
+    final obj = Repositories();
+    obj.totalCount = max(this.totalCount ?? 0, other.totalCount ?? 0);
+    obj.items = this.items + other.items;
+    obj.currentPage = max(this.currentPage ?? 0, other.currentPage ?? 0);
+    return obj;
+  }
+
   factory Repositories.fromJson(Map<String, dynamic> json) => _$RepositoriesFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoriesToJson(this);
 
-  Repositories({this.totalCount, this.items, this.currentPage});
+  Repositories({this.totalCount, this.items = const [], this.currentPage});
 }
 
 @JsonSerializable()
@@ -66,15 +75,16 @@ class Repository {
 
   String comment;
 
-  bool isSubscribed;
+  @JsonKey(ignore: true)
+  BehaviorSubject<bool> isSubscribed;
 
   RepositoryOwner owner;
 
   factory Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoryToJson(this);
 
-  Repository(this.id, this.name, this.fullName, this.htmlUrl, this.desp,
-    this.comment, this.isSubscribed, this.owner);
+  Repository({this.id, this.name, this.fullName, this.htmlUrl, this.desp,
+    this.comment, bool isSubscribed = false, this.owner}){ this.isSubscribed = BehaviorSubject.seeded(isSubscribed); }
 }
 
 @JsonSerializable()
@@ -91,5 +101,5 @@ class RepositoryOwner {
   factory RepositoryOwner.fromJson(Map<String, dynamic> json) => _$RepositoryOwnerFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoryOwnerToJson(this);
 
-  RepositoryOwner(this.id, this.login, this.url, this.avatarUrl);
+  RepositoryOwner({this.id, this.login, this.url, this.avatarUrl});
 }
