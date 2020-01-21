@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter_demo1/bloc/word_bloc.dart';
 import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/service/network_service.dart';
 import 'package:flutter_demo1/view/favorite_page.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatelessWidget {
   final WordBloc wordBloc = WordBloc();
-  final BehaviorSubject<void> refreshFinished = BehaviorSubject<void>.seeded(null);
+  final BehaviorSubject<void> refreshFinished = BehaviorSubject.seeded(null);
+  final BehaviorSubject<Repositories> newData = BehaviorSubject.seeded(Repositories());
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -32,7 +34,7 @@ class HomePage extends StatelessWidget {
   );
 
   Widget _buildListView(final List<Word> wordList) => StreamBuilder<void>(
-    stream: refreshFinished.stream,
+    stream: MergeStream([refreshFinished.stream, newData.stream]),
     builder: (context, snapshot) => EasyRefresh(
       child: ListView.builder(
         itemCount: wordBloc.wordList.length * 2,
@@ -42,13 +44,19 @@ class HomePage extends StatelessWidget {
           final int index = i ~/ 2;
           return _buildRow(wordList[index]);
         }),
-      onRefresh: () async {
-        await Future.delayed(Duration(seconds: 2), () {
-          wordList.removeRange(0, wordList.length);
-          wordList.addAll(generateWordPairs().take(10).map((wordPair) => Word(wordPair, BehaviorSubject.seeded(false))));
-          refreshFinished.add(null);
-        });
-      },
+//      onRefresh: () async {
+//        await Future.delayed(Duration(seconds: 2), () {
+//          wordList.removeRange(0, wordList.length);
+//          wordList.addAll(generateWordPairs().take(10).map((wordPair) => Word(wordPair, BehaviorSubject.seeded(false))));
+//          NetworkService.searchRepositories("zs").listen(
+//              (it) => it.items.forEach(
+//                  (it) => print(it.toJson())
+//              )
+//          );
+//          refreshFinished.add(null);
+//        });
+//      },
+      onRefresh: () async => NetworkService.searchRepositories("zs").listen((it) => newData.add(it)),
       onLoad: () async {
         await Future.delayed(Duration(seconds: 2), () {
           if (wordList.length < 30) {
