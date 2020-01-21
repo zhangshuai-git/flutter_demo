@@ -1,16 +1,7 @@
 import 'dart:math';
-import 'package:english_words/english_words.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 part 'entity.g.dart';
-
-class Word {
-  WordPair wordPair;
-  BehaviorSubject<bool> isFavorite;
-
-  Word(this.wordPair, this.isFavorite);
-}
 
 @JsonSerializable()
 class RepositoriesParams {
