@@ -22,11 +22,10 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    MergeStream<String> refreshStream = MergeStream([
-      onSearch.stream.debounce((_) => TimerStream(true, Duration(seconds: 1))),
+    repositoryBloc.bind(MergeStream([
+      onSearch.stream.debounceTime(Duration(seconds: 1)),
       onRefresh.stream,
-    ]);
-    repositoryBloc.bind(refreshStream, onLoad.stream);
+    ]), onLoad.stream);
   }
 
   @override
