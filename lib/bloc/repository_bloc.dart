@@ -3,6 +3,8 @@ import 'package:flutter_demo1/service/network_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RepositoryBloc {
+  final NetworkService networkService = NetworkService.getInstance();
+
   final BehaviorSubject<Repositories> dataSource = BehaviorSubject.seeded(Repositories());
 
   final BehaviorSubject<RepositoriesParams> refreshParam = BehaviorSubject.seeded(RepositoriesParams("zs"));
@@ -16,13 +18,13 @@ class RepositoryBloc {
   RepositoryBloc() {
     newData = refreshParam
       .skip(2)
-      .flatMap((it) => NetworkService.searchRepositories(it))
+      .flatMap((it) => networkService.searchRepositories(it))
       .share();
 
     moreData = loadParam
       .skip(2)
       .doOnData((it) => it.page = dataSource.value.currentPage + 1)
-      .flatMap((it) => NetworkService.searchRepositories(it))
+      .flatMap((it) => networkService.searchRepositories(it))
       .share();
   }
 
