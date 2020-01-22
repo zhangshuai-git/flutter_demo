@@ -11,23 +11,6 @@ class RepositoryBloc {
 
   final BehaviorSubject<RepositoriesParams> loadParam = BehaviorSubject.seeded(RepositoriesParams("zs"));
 
-  Stream<Repositories> newData;
-
-  Stream<Repositories> moreData;
-
-  RepositoryBloc() {
-    newData = refreshParam
-      .skip(2)
-      .flatMap((it) => networkService.searchRepositories(it))
-      .share();
-
-    moreData = loadParam
-      .skip(2)
-      .doOnData((it) => it.page = dataSource.value.currentPage + 1)
-      .flatMap((it) => networkService.searchRepositories(it))
-      .share();
-  }
-
   List<Repository> get favoriteList => dataSource.value.items
     .where((it) => it.isSubscribed.value)
     .toList();
@@ -41,6 +24,17 @@ class RepositoryBloc {
       .doOnData((it) => loadParam.value.query = it)
       .map((it) => loadParam.value)
       .listen((it) => loadParam.add(it));
+
+    var newData = refreshParam
+      .skip(2)
+      .flatMap((it) => networkService.searchRepositories(it))
+      .share();
+
+    var moreData = loadParam
+      .skip(2)
+      .doOnData((it) => it.page = dataSource.value.currentPage + 1)
+      .flatMap((it) => networkService.searchRepositories(it))
+      .share();
 
     newData
       .listen((it) => dataSource.add(it));

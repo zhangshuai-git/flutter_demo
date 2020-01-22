@@ -7,16 +7,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
-    theme: ThemeData(
-      primaryColor: Colors.pink.shade200,
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-      ),
-    ),
+    theme: ThemeData(primaryColor: Colors.pink.shade200),
     home: HomePage(),
     routes: <String, WidgetBuilder>{
       FavoritePage.routeName: (context) => FavoritePage()

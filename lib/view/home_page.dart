@@ -58,8 +58,12 @@ class HomePageState extends State<HomePage> {
 
   Widget _buildSearchBar() => TextField(
     controller: textEditingController,
+    autofocus: true,
     onChanged: (text) => onSearch.add(text),
     decoration: InputDecoration(
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
       hintText: 'Search',
       prefixIcon: Icon(Icons.search),
       suffixIcon: IconButton(
@@ -71,7 +75,7 @@ class HomePageState extends State<HomePage> {
       ) ,
       contentPadding: EdgeInsets.all(10),
     ),
-    autofocus: true,
+//    autofocus: true,
   );
 
   Widget _buildListView() => StreamBuilder<void>(
