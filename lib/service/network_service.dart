@@ -18,10 +18,14 @@ class NetworkService {
   Stream<Repositories> searchRepositories(RepositoriesParams param) {
     final path = "/search/repositories";
     print("param: ${param.toJson()}");
-    return Stream
-      .fromFuture(dio
-      .get(baseUrl + path, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
-      .catchError((onError) => print("onError: $onError")))
-      .map((res) => res == null ? Repositories() : Repositories.fromJson(res.data ?? {}));
+    if (param.query == null || param.query.isEmpty) {
+      return Stream.value(Repositories());
+    } else {
+      return Stream
+        .fromFuture(dio
+        .get(baseUrl + path, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
+        .catchError((onError) => print("onError: $onError")))
+        .map((res) => res == null ? Repositories() : Repositories.fromJson(res.data ?? {}));
+    }
   }
 }

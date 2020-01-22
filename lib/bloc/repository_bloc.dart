@@ -7,9 +7,9 @@ class RepositoryBloc {
 
   final BehaviorSubject<Repositories> dataSource = BehaviorSubject.seeded(Repositories());
 
-  final BehaviorSubject<RepositoriesParams> refreshParam = BehaviorSubject.seeded(RepositoriesParams("zs"));
+  final BehaviorSubject<RepositoriesParams> refreshParam = BehaviorSubject.seeded(RepositoriesParams(""));
 
-  final BehaviorSubject<RepositoriesParams> loadParam = BehaviorSubject.seeded(RepositoriesParams("zs"));
+  final BehaviorSubject<RepositoriesParams> loadParam = BehaviorSubject.seeded(RepositoriesParams(""));
 
   List<Repository> get favoriteList => dataSource.value.items
     .where((it) => it.isSubscribed.value)
@@ -25,12 +25,12 @@ class RepositoryBloc {
       .map((it) => loadParam.value)
       .listen((it) => loadParam.add(it));
 
-    var newData = refreshParam
+    final newData = refreshParam
       .skip(2)
       .flatMap((it) => networkService.searchRepositories(it))
       .share();
 
-    var moreData = loadParam
+    final moreData = loadParam
       .skip(2)
       .doOnData((it) => it.page = dataSource.value.currentPage + 1)
       .flatMap((it) => networkService.searchRepositories(it))
