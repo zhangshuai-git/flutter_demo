@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo1/bloc/repository_bloc.dart';
 import 'package:flutter_demo1/model/entity.dart';
-import 'package:flutter_demo1/service/network_service.dart';
 import 'package:flutter_demo1/view/favorite_page.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:rxdart/rxdart.dart';
@@ -14,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final RepositoryBloc repositoryBloc = RepositoryBloc();
+
   final TextEditingController textEditingController = TextEditingController();
   final BehaviorSubject<String> onSearch = BehaviorSubject.seeded("");
   final BehaviorSubject<String> onRefresh = BehaviorSubject.seeded("");
@@ -22,20 +22,18 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
-    MergeStream([
-        MergeStream([onSearch.stream, onRefresh.stream])
-          .map((it) => RepositoriesParams(it)),
-        onLoad
-          .doOnData((it) => repositoryBloc.param.value.query = it)
-      ])
-      .listen((it) => repositoryBloc.param.add(it));
-
-
+    MergeStream<String> refreshStream = MergeStream([
+      onSearch.stream.debounce((_) => TimerStream(true, Duration(seconds: 1))),
+      onRefresh.stream,
+    ]);
+    repositoryBloc.bind(refreshStream, onLoad.stream);
   }
 
   @override
   void dispose() {
+    onSearch.close();
+    onRefresh.close();
+    onLoad.close();
     repositoryBloc.dispose();
     super.dispose();
   }
@@ -60,17 +58,16 @@ class HomePageState extends State<HomePage> {
 
   Widget _buildSearchBar() => TextField(
       controller: textEditingController,
-      onChanged: (text) {
-        onSearch.add(text);
-        repositoryBloc.param.value.query = text;
-        repositoryBloc.param.add(repositoryBloc.param.value);
-      },
+      onChanged: (text) => onSearch.add(text),
       decoration: InputDecoration(
         hintText: 'Search',
         prefixIcon: Icon(Icons.search),
         suffixIcon: IconButton(
           icon: Icon(Icons.close),
-          onPressed: () => textEditingController.clear(),
+          onPressed: () {
+            textEditingController.clear();
+            onSearch.add("");
+          },
         ) ,
         contentPadding: EdgeInsets.all(10),
       ),
@@ -87,15 +84,8 @@ class HomePageState extends State<HomePage> {
           final int index = i ~/ 2;
           return _buildRow(repositoryBloc.dataSource.value.items[index]);
         }),
-      onRefresh: () async => repositoryBloc.param
-        .doOnData((it) => it.page = 1)
-        .flatMap((it) => NetworkService.searchRepositories(it))
-        .listen((it) => repositoryBloc.dataSource.add(it)),
-      onLoad: () async => repositoryBloc.param
-        .doOnData((it) => it.page++)
-        .flatMap((it) => NetworkService.searchRepositories(it))
-        .listen((it) => repositoryBloc.dataSource.add(repositoryBloc.dataSource.value + it),
-        onError: (it) => repositoryBloc.param.value.page--),
+      onRefresh: () async => onRefresh.add(textEditingController.text),
+      onLoad: () async => onLoad.add(textEditingController.text),
     ),
   );
 

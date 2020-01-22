@@ -3,6 +3,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'entity.g.dart';
 
+const PER_PAGE = 10;
+
 @JsonSerializable()
 class RepositoriesParams {
   @JsonKey(name: 'q')
@@ -20,7 +22,7 @@ class RepositoriesParams {
   factory RepositoriesParams.fromJson(Map<String, dynamic> json) => _$RepositoriesParamsFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoriesParamsToJson(this);
 
-  RepositoriesParams(this.query, {this.sort = "stars", this.order = "desc", this.perPage = 10,
+  RepositoriesParams(this.query, {this.sort = "stars", this.order = "desc", this.perPage = PER_PAGE,
     this.page = 1});
 }
 
@@ -33,7 +35,7 @@ class Repositories {
 
   int currentPage;
 
-  int get totalPage => totalCount ~/ 10;
+  int get totalPage => totalCount ~/ PER_PAGE;
 
   Repositories operator +(Repositories other) {
     final obj = Repositories();
@@ -46,7 +48,7 @@ class Repositories {
   factory Repositories.fromJson(Map<String, dynamic> json) => _$RepositoriesFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoriesToJson(this);
 
-  Repositories({this.totalCount, this.items = const [], this.currentPage});
+  Repositories({this.totalCount = 0, this.items = const [], this.currentPage = 1});
 }
 
 @JsonSerializable()

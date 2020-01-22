@@ -12,6 +12,6 @@ class NetworkService {
       .fromFuture(dio
       .get(baseUrl + path, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
       .catchError((onError) => print("onError: $onError")))
-      .map((res) => Repositories.fromJson(res.data));
+      .map((res) => res == null ? Repositories() : Repositories.fromJson(res.data ?? {}));
   }
 }
