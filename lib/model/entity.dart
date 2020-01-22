@@ -37,7 +37,7 @@ class Repositories {
 
   int get totalPage => totalCount ~/ PER_PAGE;
 
-  Repositories operator +(Repositories other) {
+  Repositories operator + (Repositories other) {
     final obj = Repositories();
     obj.totalCount = max(this.totalCount ?? 0, other.totalCount ?? 0);
     obj.items = this.items + other.items;

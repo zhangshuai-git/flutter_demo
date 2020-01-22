@@ -28,6 +28,7 @@ dependencies:
   dio: ^3.0.8
   json_serializable: ^3.2.5
   build_runner: ^1.7.3
+  sqflite: ^1.2.0
 
 dev_dependencies:
   flutter_test:
