@@ -57,24 +57,25 @@ class HomePageState extends State<HomePage> {
   );
 
   Widget _buildSearchBar() => TextField(
-      controller: textEditingController,
-      onChanged: (text) => onSearch.add(text),
-      decoration: InputDecoration(
-        hintText: 'Search',
-        prefixIcon: Icon(Icons.search),
-        suffixIcon: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            textEditingController.clear();
-            onSearch.add("");
-          },
-        ) ,
-        contentPadding: EdgeInsets.all(10),
-      ),
-    );
+    controller: textEditingController,
+    onChanged: (text) => onSearch.add(text),
+    decoration: InputDecoration(
+      hintText: 'Search',
+      prefixIcon: Icon(Icons.search),
+      suffixIcon: IconButton(
+        icon: Icon(Icons.close),
+        onPressed: () {
+          textEditingController.clear();
+          onSearch.add("");
+        },
+      ) ,
+      contentPadding: EdgeInsets.all(10),
+    ),
+    autofocus: true,
+  );
 
   Widget _buildListView() => StreamBuilder<void>(
-    stream: MergeStream([repositoryBloc.dataSource.stream]),
+    stream: repositoryBloc.dataSource.stream,
     builder: (context, snapshot) => EasyRefresh(
       child: ListView.builder(
         itemCount: repositoryBloc.dataSource.value.items.length * 2,
