@@ -8,7 +8,6 @@ import 'package:rxdart/rxdart.dart';
 class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HomePageState();
-
 }
 
 class HomePageState extends State<HomePage> {
@@ -45,7 +44,7 @@ class HomePageState extends State<HomePage> {
       actions: <Widget>[
         IconButton(
           icon: Icon(
-            Icons.list,
+            Icons.star,
             color: Colors.white,
           ),
           onPressed: () => Navigator.of(context).pushNamed(FavoritePage.routeName, arguments: repositoryBloc.favoriteList),
@@ -74,7 +73,6 @@ class HomePageState extends State<HomePage> {
       ) ,
       contentPadding: EdgeInsets.all(10),
     ),
-//    autofocus: true,
   );
 
   Widget _buildListView() => StreamBuilder<void>(

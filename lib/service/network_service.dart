@@ -16,14 +16,14 @@ class NetworkService {
   static const String baseUrl = "https://api.github.com";
 
   Stream<Repositories> searchRepositories(RepositoriesParams param) {
-    final path = "/search/repositories";
-    print("param: ${param.toJson()}");
+    final url = baseUrl + "/search/repositories";
+    print("GET: $url ${param.toJson()}");
     if (param.query == null || param.query.isEmpty) {
       return Stream.value(Repositories());
     } else {
       return Stream
         .fromFuture(dio
-        .get(baseUrl + path, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
+        .get(url, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
         .catchError((onError) => print("onError: $onError")))
         .map((res) => res == null ? Repositories() : Repositories.fromJson(res.data ?? {}));
     }
