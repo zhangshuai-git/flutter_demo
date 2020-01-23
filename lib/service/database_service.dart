@@ -1,4 +1,5 @@
 import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/service/database_helper.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DatabaseService {
@@ -7,54 +8,32 @@ class DatabaseService {
   static _getInstance() {
     if (_instance == null) {
       _instance = DatabaseService._internal();
+      final DatabaseService instance = _instance;
+      instance.getAllRepository().listen((it) => instance.repositories.add(it));
     }
     return _instance;
   }
   factory DatabaseService.getInstance() => _getInstance();
 
+  DatabaseHelper _helper = DatabaseHelper.getInstance();
+
   final BehaviorSubject<List<Repository>> repositories = BehaviorSubject.seeded([]);
 
-  /*
-    func add(repository : Repository) {
-        Observable<Void>
-            .create({ (subscriber) -> Disposable in
-                DatabaseAPI.shared.add(repository: repository)
-                subscriber.onNext(())
-                subscriber.onCompleted()
-                return Disposables.create()
-            })
-            .flatMapLatest {
-                self.getAllRepository()
-            }
-            .bind(to: repositories)
-            .disposed(by: disposeBag)
-    }
+  Stream<List<Repository>> getAllRepository() => _helper
+    .getAllRepository()
+    .then((it) => Stream
+    .fromIterable(it)
+    .doOnData((it) => it.isSubscribed = BehaviorSubject.seeded(true))
+    .toList())
+    .asStream();
 
-    func delete(repository: Repository) {
-        Observable<Void>
-            .create({ (subscriber) -> Disposable in
-                DatabaseAPI.shared.delete(repository: repository)
-                subscriber.onNext(())
-                subscriber.onCompleted()
-                return Disposables.create()
-            })
-            .flatMapLatest {
-                self.getAllRepository()
-            }
-            .bind(to: repositories)
-            .disposed(by: disposeBag)
-    }
+  void add(Repository repository) => Stream
+    .fromFuture(_helper.add(repository))
+    .flatMap((it) => this.getAllRepository())
+    .listen((it) => repositories.add(it));
 
-    private func getAllRepository() -> Observable<[Repository]> {
-        return Observable
-            .from(DatabaseAPI.shared.getAllRepository())
-            .map({
-                $0.isSubscribed = true
-                return $0
-            })
-            .toArray()
-            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .default))
-            .observeOn(MainScheduler.instance)
-    }
-  * */
+  void delete(Repository repository) => Stream
+    .fromFuture(_helper.delete(repository))
+    .flatMap((it) => this.getAllRepository())
+    .listen((it) => repositories.add(it));
 }
