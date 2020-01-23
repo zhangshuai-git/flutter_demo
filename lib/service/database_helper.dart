@@ -75,21 +75,27 @@ class DatabaseHelper {
   Future<List<Repository>> getAllRepository() async {
     print("getAllRepository");
     final db = await this.database;
-    final res = db.rawQuery("SELECT * FROM repository ").then((it) => it.map((it) => Repository.fromJson(it)));
+    final Future<List<Repository>> res = db
+      .rawQuery("SELECT * FROM repository ")
+      .then((it) => it.map((it) => Repository.fromJson(it)).toList());
     return res;
   }
 
   Future<Repository> getRepository(int id) async {
     print("getRepository $id");
     final db = await this.database;
-    final res = db.rawQuery("SELECT * FROM repository where id = ? ", [id]).then((it) => Repository.fromJson(it.last));
+    final Future<Repository> res = db
+      .rawQuery("SELECT * FROM repository where id = ? ", [id])
+      .then((it) => (it == null || it.isEmpty) ? null : Repository.fromJson(it.last));
     return res;
   }
 
   Future<RepositoryOwner> getRepositoryOwner(int id) async {
     print("getRepositoryOwner $id");
     final db = await this.database;
-    final res = db.rawQuery("SELECT * FROM repository_owner where id = ? ", [id]).then((it) => RepositoryOwner.fromJson(it.last));
+    final Future<RepositoryOwner> res = db
+      .rawQuery("SELECT * FROM repository_owner where id = ? ", [id])
+      .then((it) => (it == null || it.isEmpty) ? null : RepositoryOwner.fromJson(it.last));
     return res;
   }
 }

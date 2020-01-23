@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter_demo1/service/database_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'entity.g.dart';
@@ -77,7 +78,11 @@ class Repository {
   Map<String, dynamic> toJson() => _$RepositoryToJson(this);
 
   Repository({this.id, this.name, this.fullName, this.htmlUrl, this.desp,
-    this.comment, bool isSubscribed = false, this.owner}){ this.isSubscribed = BehaviorSubject.seeded(isSubscribed); }
+    this.comment, bool isSubscribed = false, this.owner}){
+    this.isSubscribed = BehaviorSubject.seeded(isSubscribed);
+    final databaseService = DatabaseService.getInstance();
+    this.isSubscribed.listen((it) => it ? databaseService.add(this) : databaseService.delete(this));
+  }
 }
 
 @JsonSerializable()

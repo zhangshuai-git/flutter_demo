@@ -1,14 +1,14 @@
 import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/service/database_service.dart';
 import 'package:flutter_demo1/service/network_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RepositoryBloc {
-  final NetworkService networkService = NetworkService.getInstance();
+  final NetworkService _networkService = NetworkService.getInstance();
+  final DatabaseService _databaseService = DatabaseService.getInstance();
 
   final BehaviorSubject<Repositories> dataSource = BehaviorSubject.seeded(Repositories());
-
   final BehaviorSubject<RepositoriesParams> refreshParam = BehaviorSubject.seeded(RepositoriesParams(""));
-
   final BehaviorSubject<RepositoriesParams> loadParam = BehaviorSubject.seeded(RepositoriesParams(""));
 
   List<Repository> get favoriteList => dataSource.value.items
@@ -27,13 +27,15 @@ class RepositoryBloc {
 
     final newData = refreshParam
       .skip(2)
-      .flatMap((it) => networkService.searchRepositories(it))
+      .flatMap((it) => _networkService.searchRepositories(it))
+      .doOnData((it) => _databaseService.synchronizeSubscription(it))
       .share();
 
     final moreData = loadParam
       .skip(2)
       .doOnData((it) => it.page = dataSource.value.currentPage + 1)
-      .flatMap((it) => networkService.searchRepositories(it))
+      .flatMap((it) => _networkService.searchRepositories(it))
+      .doOnData((it) => _databaseService.synchronizeSubscription(it))
       .share();
 
     newData

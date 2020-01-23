@@ -9,7 +9,7 @@ class DatabaseService {
     if (_instance == null) {
       _instance = DatabaseService._internal();
       final DatabaseService instance = _instance;
-      instance.getAllRepository().listen((it) => instance.repositories.add(it));
+      instance._getAllRepository().listen((it) => instance.repositories.add(it));
     }
     return _instance;
   }
@@ -19,7 +19,7 @@ class DatabaseService {
 
   final BehaviorSubject<List<Repository>> repositories = BehaviorSubject.seeded([]);
 
-  Stream<List<Repository>> getAllRepository() => _helper
+  Stream<List<Repository>> _getAllRepository() => _helper
     .getAllRepository()
     .then((it) => Stream
     .fromIterable(it)
@@ -29,11 +29,21 @@ class DatabaseService {
 
   void add(Repository repository) => Stream
     .fromFuture(_helper.add(repository))
-    .flatMap((it) => this.getAllRepository())
+    .flatMap((it) => this._getAllRepository())
     .listen((it) => repositories.add(it));
 
   void delete(Repository repository) => Stream
     .fromFuture(_helper.delete(repository))
-    .flatMap((it) => this.getAllRepository())
+    .flatMap((it) => this._getAllRepository())
     .listen((it) => repositories.add(it));
+
+  void synchronizeSubscription(Repositories repositories) {
+    for (Repository repository in repositories.items) {
+      for (Repository favouriteRepository in this.repositories.value) {
+        repository.isSubscribed = BehaviorSubject.seeded(repository.id == favouriteRepository.id);
+        if (repository.isSubscribed.value) { break; }
+      }
+    }
+  }
+
 }
