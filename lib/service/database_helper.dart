@@ -48,7 +48,7 @@ class DatabaseHelper {
   }
 
   Future<void> add(Repository repository) async {
-    print("add ${repository.name}");
+    print("add ${repository.toJson()}");
     final db = await this.database;
     db.execute("INSERT INTO repository(id, own_id, name, full_name, html_url, description, comment)VALUES(?,?,?,?,?,?,?)",
       [repository.id, repository.owner.id, repository.name, repository.fullName, repository.htmlUrl, repository.desp, repository.comment]);
@@ -57,13 +57,13 @@ class DatabaseHelper {
   }
 
   Future<void> delete(Repository repository) async {
-    print("delete ${repository.name}");
+    print("delete ${repository.toJson()}");
     final db = await this.database;
     db.execute("DELETE FROM repository WHERE id = ?", [repository.id]);
   }
 
   Future<void> update(Repository repository) async {
-    print("update ${repository.name}");
+    print("update ${repository.toJson()}");
     final db = await this.database;
     db.execute("UPDATE 'repository' SET name = ?  WHERE id = ? ", [repository.name, repository.id]);
     db.execute("UPDATE 'repository' SET full_name = ?  WHERE id = ? ", [repository.fullName, repository.id]);

@@ -23,7 +23,7 @@ class DatabaseService {
     .getAllRepository()
     .then((it) => Stream
     .fromIterable(it)
-    .doOnData((it) => it.isSubscribed = BehaviorSubject.seeded(true))
+    .doOnData((it) => it.isSubscribed.add(true))
     .toList())
     .asStream();
 
@@ -40,7 +40,7 @@ class DatabaseService {
   void synchronizeSubscription(Repositories repositories) {
     for (Repository repository in repositories.items) {
       for (Repository favouriteRepository in this.repositories.value) {
-        repository.isSubscribed = BehaviorSubject.seeded(repository.id == favouriteRepository.id);
+        repository.isSubscribed.add(repository.id == favouriteRepository.id);
         if (repository.isSubscribed.value) { break; }
       }
     }

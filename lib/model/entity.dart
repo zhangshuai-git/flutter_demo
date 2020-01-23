@@ -70,19 +70,21 @@ class Repository {
   String comment;
 
   @JsonKey(ignore: true)
-  BehaviorSubject<bool> isSubscribed;
+  final BehaviorSubject<bool> isSubscribed = BehaviorSubject.seeded(false);
 
-  RepositoryOwner owner;
+  RepositoryOwner owner = RepositoryOwner();
 
   factory Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoryToJson(this);
 
   Repository({this.id, this.name, this.fullName, this.htmlUrl, this.desp,
-    this.comment, bool isSubscribed = false, this.owner}){
-    this.isSubscribed = BehaviorSubject.seeded(isSubscribed);
+    this.comment, this.owner}) {
+    print("${this.name} -> isSubscribed: ${this.isSubscribed}");
+    print("${this.name} -> owner: ${this.owner}");
     final databaseService = DatabaseService.getInstance();
     this.isSubscribed
       .skip(1)
+      .doOnData((it) => print("${this.name} -> doOnData: $it"))
       .listen((it) => it ? databaseService.add(this) : databaseService.delete(this));
   }
 }
