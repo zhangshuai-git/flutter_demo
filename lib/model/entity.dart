@@ -81,7 +81,9 @@ class Repository {
     this.comment, bool isSubscribed = false, this.owner}){
     this.isSubscribed = BehaviorSubject.seeded(isSubscribed);
     final databaseService = DatabaseService.getInstance();
-    this.isSubscribed.listen((it) => it ? databaseService.add(this) : databaseService.delete(this));
+    this.isSubscribed
+      .skip(1)
+      .listen((it) => it ? databaseService.add(this) : databaseService.delete(this));
   }
 }
 
