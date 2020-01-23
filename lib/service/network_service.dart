@@ -21,11 +21,11 @@ class NetworkService {
     if (param.query == null || param.query.isEmpty) {
       return Stream.value(Repositories());
     } else {
-      print("GET: $url ${param.toJson()}");
+      log("GET: $url ${param.toJson()}");
       return Stream
         .fromFuture(dio
         .get(url, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
-        .catchError((onError) => print("onError: $onError")))
+        .catchError((onError) => log("onError: $onError")))
         .map((res) => res == null ? Repositories() : Repositories.fromJson(res.data ?? {}));
     }
   }

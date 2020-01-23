@@ -25,7 +25,7 @@ class DatabaseService {
     .getAllRepository()
     .then((it) => Stream
     .fromIterable(it)
-    .doOnData((it) => print("_getAllRepository: $it"))
+//    .doOnData((it) => log("_getAllRepository: $it"))
     .doOnData((it) => it.isSubscribed.value = true)
     .toList())
     .asStream();
@@ -45,7 +45,7 @@ class DatabaseService {
       for (Repository favouriteRepository in this.repositories.value) {
         repository.isSubscribed.value = repository.id == favouriteRepository.id;
         if (repository.isSubscribed.value) {
-          print("synchronizeSubscription: $repository");
+          log("synchronizeSubscription: $repository");
           break;
         }
       }

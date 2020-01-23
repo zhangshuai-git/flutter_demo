@@ -81,11 +81,12 @@ class Repository {
 
   Repository({this.id, this.name, this.fullName, this.htmlUrl, this.desp,
     this.comment, this.owner}) {
-    print("${this.name} -> owner: ${this.owner}");
+    log("${this.name} -> owner: ${this.owner}");
     final databaseService = DatabaseService.getInstance();
     this.isSubscribed
+      .share()
       .skip(1)
-      .doOnData((it) => print("${this.name} -> doOnData: $it"))
+      .doOnData((it) => log("${this.name} -> doOnData: $it"))
       .listen((it) => it ? databaseService.add(this) : databaseService.delete(this));
   }
 }
