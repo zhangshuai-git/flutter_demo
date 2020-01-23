@@ -2,9 +2,11 @@ import 'dart:math';
 import 'package:flutter_demo1/service/database_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_demo1/utility/extension.dart';
+
 part 'entity.g.dart';
 
-const PER_PAGE = 10;
+const PER_PAGE = 20;
 
 @JsonSerializable()
 class RepositoriesParams {
@@ -79,7 +81,6 @@ class Repository {
 
   Repository({this.id, this.name, this.fullName, this.htmlUrl, this.desp,
     this.comment, this.owner}) {
-    print("${this.name} -> isSubscribed: ${this.isSubscribed}");
     print("${this.name} -> owner: ${this.owner}");
     final databaseService = DatabaseService.getInstance();
     this.isSubscribed

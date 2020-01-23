@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/utility/extension.dart';
 
 class NetworkService {
   static NetworkService _instance;
@@ -17,10 +18,10 @@ class NetworkService {
 
   Stream<Repositories> searchRepositories(RepositoriesParams param) {
     final url = baseUrl + "/search/repositories";
-    print("GET: $url ${param.toJson()}");
     if (param.query == null || param.query.isEmpty) {
       return Stream.value(Repositories());
     } else {
+      print("GET: $url ${param.toJson()}");
       return Stream
         .fromFuture(dio
         .get(url, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))

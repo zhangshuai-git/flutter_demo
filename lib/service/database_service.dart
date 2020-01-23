@@ -1,6 +1,7 @@
 import 'package:flutter_demo1/model/entity.dart';
 import 'package:flutter_demo1/service/database_helper.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_demo1/utility/extension.dart';
 
 class DatabaseService {
   static DatabaseService _instance;
@@ -9,7 +10,8 @@ class DatabaseService {
     if (_instance == null) {
       _instance = DatabaseService._internal();
       final DatabaseService instance = _instance;
-      instance._getAllRepository().listen((it) => instance.repositories.add(it));
+      instance._getAllRepository()
+        .listen((it) => instance.repositories.add(it));
     }
     return _instance;
   }
@@ -23,7 +25,8 @@ class DatabaseService {
     .getAllRepository()
     .then((it) => Stream
     .fromIterable(it)
-    .doOnData((it) => it.isSubscribed.add(true))
+    .doOnData((it) => print("_getAllRepository: $it"))
+    .doOnData((it) => it.isSubscribed.value = true)
     .toList())
     .asStream();
 
@@ -40,8 +43,11 @@ class DatabaseService {
   void synchronizeSubscription(Repositories repositories) {
     for (Repository repository in repositories.items) {
       for (Repository favouriteRepository in this.repositories.value) {
-        repository.isSubscribed.add(repository.id == favouriteRepository.id);
-        if (repository.isSubscribed.value) { break; }
+        repository.isSubscribed.value = repository.id == favouriteRepository.id;
+        if (repository.isSubscribed.value) {
+          print("synchronizeSubscription: $repository");
+          break;
+        }
       }
     }
   }

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter_demo1/model/entity.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_demo1/utility/extension.dart';
 
 class DatabaseHelper {
   static DatabaseHelper _instance;
@@ -48,6 +49,7 @@ class DatabaseHelper {
   }
 
   Future<void> add(Repository repository) async {
+    if (repository == null || repository.owner == null) return;
     print("add ${repository.toJson()}");
     final db = await this.database;
     db.execute("INSERT INTO repository(id, own_id, name, full_name, html_url, description, comment)VALUES(?,?,?,?,?,?,?)",
@@ -57,12 +59,14 @@ class DatabaseHelper {
   }
 
   Future<void> delete(Repository repository) async {
+    if (repository == null) return;
     print("delete ${repository.toJson()}");
     final db = await this.database;
     db.execute("DELETE FROM repository WHERE id = ?", [repository.id]);
   }
 
   Future<void> update(Repository repository) async {
+    if (repository == null) return;
     print("update ${repository.toJson()}");
     final db = await this.database;
     db.execute("UPDATE 'repository' SET name = ?  WHERE id = ? ", [repository.name, repository.id]);
