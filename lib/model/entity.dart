@@ -77,8 +77,8 @@ class Repository {
   factory Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoryToJson(this);
 
-  Repository({this.id, this.name = "", this.fullName = "", this.htmlUrl = "", this.desp = "",
-    this.comment = "", this.owner}) : this.isSubscribed = BehaviorSubject.seeded(false);
+  Repository({this.id, this.name, this.fullName, this.htmlUrl, this.desp,
+    this.comment, this.owner}) : this.isSubscribed = BehaviorSubject.seeded(false);
 }
 
 @JsonSerializable()

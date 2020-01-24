@@ -21,14 +21,14 @@ class RepositoryCell extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ListTile(
-              title: Text(repository.name),
-              subtitle: Text(repository.htmlUrl),
+              title: Text(repository.name ?? ""),
+              subtitle: Text(repository.htmlUrl ?? ""),
               trailing: _buildIconButton(),
               contentPadding: EdgeInsets.only(left: 10, right: 10),
             ),
             Padding(
               padding: EdgeInsets.all(10),
-              child: Text(repository.desp),
+              child: Text(repository.desp ?? ""),
             ),
           ],
         ),
