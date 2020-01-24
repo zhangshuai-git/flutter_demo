@@ -48,6 +48,12 @@ class RepositoryBloc {
     moreData
       .where((it) => it.items.length > 0)
       .listen((it) => dataSource.value.currentPage++);
+
+    _databaseService
+      .repositories
+      .doOnData((_) => _databaseService
+      .synchronizeSubscription(dataSource.value))
+      .listen((it) => dataSource.add(dataSource.value));
   }
 
   void dispose() {
