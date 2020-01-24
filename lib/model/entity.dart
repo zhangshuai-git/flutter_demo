@@ -1,12 +1,10 @@
 import 'dart:math';
-import 'package:flutter_demo1/service/database_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:flutter_demo1/utility/extension.dart';
 
 part 'entity.g.dart';
 
-const PER_PAGE = 20;
+const PER_PAGE = 10;
 
 @JsonSerializable()
 class RepositoriesParams {
@@ -74,21 +72,13 @@ class Repository {
   @JsonKey(ignore: true)
   final BehaviorSubject<bool> isSubscribed = BehaviorSubject.seeded(false);
 
-  RepositoryOwner owner = RepositoryOwner();
+  RepositoryOwner owner;
 
   factory Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoryToJson(this);
 
   Repository({this.id, this.name, this.fullName, this.htmlUrl, this.desp,
-    this.comment, this.owner}) {
-    log("${this.name} -> owner: ${this.owner}");
-    final databaseService = DatabaseService.getInstance();
-    this.isSubscribed
-      .share()
-      .skip(1)
-      .doOnData((it) => log("${this.name} -> doOnData: $it"))
-      .listen((it) => it ? databaseService.add(this) : databaseService.delete(this));
-  }
+    this.comment, this.owner});
 }
 
 @JsonSerializable()

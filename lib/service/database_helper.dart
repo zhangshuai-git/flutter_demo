@@ -77,38 +77,53 @@ class DatabaseHelper {
   }
 
   Future<List<Repository>> getAllRepository() async {
-    log("============ getAllRepository ============");
     final db = await this.database;
-    final Future<List<Repository>> res = db
-      .rawQuery("SELECT r.* FROM repository r, repository_owner o WHERE r.own_id = o.id ")
-      .then((it) {
-      log("rawQuery: $it");
-        return it.map((it) => Repository.fromJson(it)).toList();
-      });
-    final List<Repository> list = await res;
-    list.forEach((it) async {
-//      it.owner = await getRepositoryOwner(it.owner.id);
-      log(it.toJson());
-    });
-    log("============ END getAllRepository ============");
-    return res;
+    List<Repository> dataArray = [];
+    List<Map<String, dynamic>> res = await db.rawQuery("SELECT * FROM repository ");
+    for (final map in res) {
+      final repository = Repository();
+      repository.id = map["id"];
+      repository.name = map["name"];
+      repository.fullName = map["full_name"];
+      repository.htmlUrl = map["html_url"];
+      repository.desp = map["description"];
+      repository.comment = map["comment"];
+      repository.owner = await getRepositoryOwner(map["own_id"]);
+      log(repository.toJson());
+      dataArray.add(repository);
+    }
+    return dataArray;
   }
 
   Future<Repository> getRepository(int id) async {
     log("getRepository $id");
     final db = await this.database;
-    final Future<Repository> res = db
-      .rawQuery("SELECT * FROM repository where id = ? ", [id])
-      .then((it) => (it == null || it.isEmpty) ? null : Repository.fromJson(it.last));
-    return res;
+    final repository = Repository();
+    final List<Map<String, dynamic>> res = await db.rawQuery("SELECT * FROM repository where id = ? ", [id]);
+    for (final map in res) {
+      repository.id = map["id"];
+      repository.owner.id = map["own_id"];
+      repository.name = map["name"];
+      repository.fullName = map["full_name"];
+      repository.htmlUrl = map["html_url"];
+      repository.desp = map["description"];
+      repository.comment = map["comment"];
+      repository.owner = await getRepositoryOwner(repository.owner.id);
+    }
+    return repository;
   }
 
   Future<RepositoryOwner> getRepositoryOwner(int id) async {
     log("getRepositoryOwner $id");
     final db = await this.database;
-    final Future<RepositoryOwner> res = db
-      .rawQuery("SELECT * FROM repository_owner where id = ? ", [id])
-      .then((it) => (it == null || it.isEmpty) ? null : RepositoryOwner.fromJson(it.last));
-    return res;
+    final owner = RepositoryOwner();
+    final List<Map<String, dynamic>> res = await db.rawQuery("SELECT * FROM repository_owner where id = ? ", [id]);
+    for (final map in res) {
+      owner.id = map["id"];
+      owner.login = map["login"];
+      owner.url = map["url"];
+      owner.avatarUrl = map["avatar_url"];
+    }
+    return owner;
   }
 }
