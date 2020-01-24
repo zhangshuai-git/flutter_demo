@@ -70,15 +70,15 @@ class Repository {
   String comment;
 
   @JsonKey(ignore: true)
-  final BehaviorSubject<bool> isSubscribed = BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> isSubscribed;
 
   RepositoryOwner owner;
 
   factory Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
   Map<String, dynamic> toJson() => _$RepositoryToJson(this);
 
-  Repository({this.id, this.name, this.fullName, this.htmlUrl, this.desp,
-    this.comment, this.owner});
+  Repository({this.id, this.name = "", this.fullName = "", this.htmlUrl = "", this.desp = "",
+    this.comment = "", this.owner}) : this.isSubscribed = BehaviorSubject.seeded(false);
 }
 
 @JsonSerializable()

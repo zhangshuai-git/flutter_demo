@@ -50,24 +50,24 @@ class DatabaseHelper {
 
   Future<void> add(Repository repository) async {
     if (repository == null || repository.owner == null) return;
-    log("add ${repository.toJson()}");
+    log("add ${repository.name}");
     final db = await this.database;
-    db.execute("INSERT INTO repository(id, own_id, name, full_name, html_url, description, comment)VALUES(?,?,?,?,?,?,?)",
+    db.execute("REPLACE INTO repository(id, own_id, name, full_name, html_url, description, comment)VALUES(?,?,?,?,?,?,?)",
       [repository.id, repository.owner.id, repository.name, repository.fullName, repository.htmlUrl, repository.desp, repository.comment]);
-    db.execute("INSERT INTO repository_owner(id, login, url, avatar_url)VALUES(?,?,?,?)",
+    db.execute("REPLACE INTO repository_owner(id, login, url, avatar_url)VALUES(?,?,?,?)",
       [repository.owner.id, repository.owner.login, repository.owner.url, repository.owner.avatarUrl]);
   }
 
   Future<void> delete(Repository repository) async {
     if (repository == null) return;
-    log("delete ${repository.toJson()}");
+    log("delete ${repository.name}");
     final db = await this.database;
     db.execute("DELETE FROM repository WHERE id = ?", [repository.id]);
   }
 
   Future<void> update(Repository repository) async {
     if (repository == null) return;
-    log("update ${repository.toJson()}");
+    log("update ${repository.name}");
     final db = await this.database;
     db.execute("UPDATE 'repository' SET name = ?  WHERE id = ? ", [repository.name, repository.id]);
     db.execute("UPDATE 'repository' SET full_name = ?  WHERE id = ? ", [repository.fullName, repository.id]);
@@ -78,7 +78,7 @@ class DatabaseHelper {
 
   Future<List<Repository>> getAllRepository() async {
     final db = await this.database;
-    List<Repository> dataArray = [];
+    List<Repository> list = [];
     List<Map<String, dynamic>> res = await db.rawQuery("SELECT * FROM repository ");
     for (final map in res) {
       final repository = Repository();
@@ -89,10 +89,9 @@ class DatabaseHelper {
       repository.desp = map["description"];
       repository.comment = map["comment"];
       repository.owner = await getRepositoryOwner(map["own_id"]);
-      log(repository.toJson());
-      dataArray.add(repository);
+      list.add(repository);
     }
-    return dataArray;
+    return list;
   }
 
   Future<Repository> getRepository(int id) async {

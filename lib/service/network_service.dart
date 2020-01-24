@@ -22,10 +22,10 @@ class NetworkService {
       return Stream.value(Repositories());
     } else {
       log("GET: $url ${param.toJson()}");
-      return Stream
-        .fromFuture(dio
+      return dio
         .get(url, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
-        .catchError((onError) => log("onError: $onError")))
+        .catchError((onError) => log("onError: $onError"))
+        .asStream()
         .map((res) => res == null ? Repositories() : Repositories.fromJson(res.data ?? {}));
     }
   }
