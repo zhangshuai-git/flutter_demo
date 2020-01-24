@@ -14,8 +14,5 @@ class MyApp extends StatelessWidget {
       [BottomNavigationBarItem(icon: Icon(Icons.home), title: Container()),
         BottomNavigationBarItem(icon: Icon(Icons.star), title: Container())]
     ),
-    routes: <String, WidgetBuilder>{
-      FavoritePage.routeName: (context) => FavoritePage()
-    },
   );
 }

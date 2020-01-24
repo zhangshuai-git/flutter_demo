@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo1/model/entity.dart';
 import 'package:flutter_demo1/service/database_service.dart';
+import 'package:flutter_demo1/view/owner_page.dart';
 
 class RepositoryCell extends StatelessWidget {
   const RepositoryCell(this.repository, { Key key,}) : super(key: key);
@@ -10,22 +11,27 @@ class RepositoryCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StreamBuilder<bool>(
     stream: repository.isSubscribed.stream,
-    builder: (context, snapshot) => Card(
-      margin: EdgeInsets.only(top: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ListTile(
-            title: Text(repository.name),
-            subtitle: Text(repository.htmlUrl),
-            trailing: _buildIconButton(),
-            contentPadding: EdgeInsets.only(left: 10, right: 10),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(repository.desp),
-          ),
-        ],
+    builder: (context, snapshot) => GestureDetector(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => OwnerPage(repository.owner),
+      )),
+      child: Card(
+        margin: EdgeInsets.only(top: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ListTile(
+              title: Text(repository.name),
+              subtitle: Text(repository.htmlUrl),
+              trailing: _buildIconButton(),
+              contentPadding: EdgeInsets.only(left: 10, right: 10),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(repository.desp),
+            ),
+          ],
+        ),
       ),
     ),
   );
