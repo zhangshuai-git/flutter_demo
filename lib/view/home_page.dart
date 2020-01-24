@@ -47,7 +47,7 @@ class HomePageState extends State<HomePage> {
             Icons.star,
             color: Colors.white,
           ),
-          onPressed: () => Navigator.of(context).pushNamed(FavoritePage.routeName, arguments: repositoryBloc.favoriteList),
+          onPressed: () => Navigator.of(context).pushNamed(FavoritePage.routeName),
         )
       ],
     ),
@@ -79,13 +79,8 @@ class HomePageState extends State<HomePage> {
     stream: repositoryBloc.dataSource.stream,
     builder: (context, snapshot) => EasyRefresh(
       child: ListView.builder(
-        itemCount: repositoryBloc.dataSource.value.items.length * 2,
-        padding: EdgeInsets.all(16.0),
-        itemBuilder: (BuildContext context, int i) {
-          if (i.isOdd) return Divider();
-          final int index = i ~/ 2;
-          return RepositoryCell(repositoryBloc.dataSource.value.items[index]);
-        }),
+        itemCount: repositoryBloc.dataSource.value.items.length,
+        itemBuilder: (context, index) => RepositoryCell(repositoryBloc.dataSource.value.items[index])),
       onRefresh: () async => onRefresh.add(textEditingController.text),
       onLoad: () async => onLoad.add(textEditingController.text),
     ),

@@ -8,24 +8,38 @@ class RepositoryCell extends StatelessWidget {
   final Repository repository;
 
   @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: repository.isSubscribed.stream,
-      builder: (context, snapshot) => ListTile(
-        title: Text(
-          repository.name,
-          style: TextStyle(fontSize: 18.0),
-        ),
-        trailing: Icon(
-          repository.isSubscribed.value ? Icons.favorite : Icons.favorite_border,
-          color: repository.isSubscribed.value ? Colors.red : null,
-        ),
-        onTap: () {
-          var isSubscribed = !repository.isSubscribed.value;
-          final databaseService = DatabaseService.getInstance();
-          isSubscribed ? databaseService.add(repository) : databaseService.delete(repository);
-          repository.isSubscribed.add(isSubscribed);
-        },
-      ));
-  }
+  Widget build(BuildContext context) => StreamBuilder<bool>(
+    stream: repository.isSubscribed.stream,
+    builder: (context, snapshot) => Card(
+      margin: EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ListTile(
+            title: Text(repository.name),
+            subtitle: Text(repository.htmlUrl),
+            trailing: _buildIconButton(),
+            contentPadding: EdgeInsets.only(left: 10, right: 10),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(repository.desp),
+          ),
+        ],
+      ),
+    ),
+  );
+
+  Widget _buildIconButton() => IconButton(
+    icon: Icon(
+      repository.isSubscribed.value ? Icons.favorite : Icons.favorite_border,
+      color: repository.isSubscribed.value ? Colors.red : null,
+    ),
+    onPressed: () {
+      final isSubscribed = !repository.isSubscribed.value;
+      final databaseService = DatabaseService.getInstance();
+      isSubscribed ? databaseService.add(repository) : databaseService.delete(repository);
+      repository.isSubscribed.add(isSubscribed);
+    },
+  );
 }

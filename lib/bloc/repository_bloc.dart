@@ -11,10 +11,6 @@ class RepositoryBloc {
   final BehaviorSubject<RepositoriesParams> refreshParam = BehaviorSubject.seeded(RepositoriesParams(""));
   final BehaviorSubject<RepositoriesParams> loadParam = BehaviorSubject.seeded(RepositoriesParams(""));
 
-  List<Repository> get favoriteList => dataSource.value.items
-    .where((it) => it.isSubscribed.value)
-    .toList();
-
   void bind(Stream<String> refresh, Stream<String> load) {
     refresh
       .map((it) => RepositoriesParams(it))
