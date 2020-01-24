@@ -17,8 +17,8 @@ class TabBarController extends StatelessWidget {
         children: pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: items,
         currentIndex: pageIndex.value,
+        items: items,
         onTap: (index) => pageIndex.add(index),
       ),
     )

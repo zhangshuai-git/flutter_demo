@@ -5,7 +5,6 @@ import 'package:flutter_demo1/widget/repository_cell.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FavoritePage extends StatelessWidget {
-  static const String routeName = '/favorite';
   BehaviorSubject<List<Repository>> get dataSource => DatabaseService.getInstance().repositories;
 
   @override
