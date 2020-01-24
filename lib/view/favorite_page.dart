@@ -13,7 +13,7 @@ class FavoritePage extends StatelessWidget {
       brightness: Brightness.dark,
       iconTheme: IconThemeData(color: Colors.white),
       title: Text(
-        'Favorite Repository',
+        'Favorite',
         style: TextStyle(color: Colors.white),
       ),
     ),

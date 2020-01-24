@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     home: TabBarController(
       [HomePage(), FavoritePage()],
       [BottomNavigationBarItem(icon: Icon(Icons.home), title: Container()),
-        BottomNavigationBarItem(icon: Icon(Icons.star), title: Container())]
+        BottomNavigationBarItem(icon: Icon(Icons.favorite), title: Container())]
     ),
   );
 }
