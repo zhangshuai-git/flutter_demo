@@ -8,9 +8,9 @@ class DatabaseService {
   static _getInstance() {
     if (_instance == null) {
       _instance = DatabaseService._internal();
-      final DatabaseService instance = _instance;
-      instance._getAllRepository()
-        .listen((it) => instance.repositories.add(it));
+      _instance
+        ._getAllRepository()
+        .listen((it) => _instance.repositories.add(it));
     }
     return _instance;
   }

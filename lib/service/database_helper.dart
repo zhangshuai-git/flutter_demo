@@ -91,6 +91,7 @@ class DatabaseHelper {
       repository.owner = await getRepositoryOwner(map["own_id"]);
       list.add(repository);
     }
+    log("getAllRepository: ${list.map((it) => it.name)}");
     return list;
   }
 
