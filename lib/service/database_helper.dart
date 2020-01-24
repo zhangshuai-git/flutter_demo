@@ -102,13 +102,12 @@ class DatabaseHelper {
     final List<Map<String, dynamic>> res = await db.rawQuery("SELECT * FROM repository where id = ? ", [id]);
     for (final map in res) {
       repository.id = map["id"];
-      repository.owner.id = map["own_id"];
       repository.name = map["name"];
       repository.fullName = map["full_name"];
       repository.htmlUrl = map["html_url"];
       repository.desp = map["description"];
       repository.comment = map["comment"];
-      repository.owner = await getRepositoryOwner(repository.owner.id);
+      repository.owner = await getRepositoryOwner(map["own_id"]);
     }
     return repository;
   }
