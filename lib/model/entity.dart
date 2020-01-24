@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'entity.g.dart';
 
-const PER_PAGE = 10;
+const PER_PAGE = 20;
 
 @JsonSerializable()
 class RepositoriesParams {
