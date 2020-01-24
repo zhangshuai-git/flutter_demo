@@ -12,7 +12,10 @@ class TabBarController extends StatelessWidget {
   Widget build(BuildContext context) => StreamBuilder<int>(
     stream: pageIndex.stream,
     builder: (BuildContext context, AsyncSnapshot<int> snapshot) => Scaffold(
-      body: pages[pageIndex.value],
+      body: IndexedStack(
+        index: pageIndex.value,
+        children: pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: items,
         currentIndex: pageIndex.value,
