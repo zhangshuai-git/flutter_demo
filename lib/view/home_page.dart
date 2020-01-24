@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo1/bloc/repository_bloc.dart';
+import 'package:flutter_demo1/model/entity.dart';
 import 'package:flutter_demo1/widget/repository_cell.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:rxdart/rxdart.dart';
@@ -64,7 +65,7 @@ class HomePageState extends State<HomePage> {
     ),
   );
 
-  Widget _buildListView() => StreamBuilder<void>(
+  Widget _buildListView() => StreamBuilder<Repositories>(
     stream: repositoryBloc.dataSource.stream,
     builder: (context, snapshot) => EasyRefresh(
       child: ListView.builder(
