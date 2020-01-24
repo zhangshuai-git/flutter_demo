@@ -9,9 +9,9 @@ class TabBarController extends StatelessWidget {
   final BehaviorSubject<int> pageIndex = BehaviorSubject.seeded(0);
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<int>(
+  Widget build(BuildContext context) => StreamBuilder(
     stream: pageIndex.stream,
-    builder: (BuildContext context, AsyncSnapshot<int> snapshot) => Scaffold(
+    builder: (context, snapshot) => Scaffold(
       body: IndexedStack(
         index: pageIndex.value,
         children: pages,

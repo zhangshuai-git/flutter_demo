@@ -65,7 +65,7 @@ class HomePageState extends State<HomePage> {
     ),
   );
 
-  Widget _buildListView() => StreamBuilder<Repositories>(
+  Widget _buildListView() => StreamBuilder(
     stream: repositoryBloc.dataSource.stream,
     builder: (context, snapshot) {
       if (repositoryBloc.dataSource.value.items.length == 0) {

@@ -9,7 +9,7 @@ class RepositoryCell extends StatelessWidget {
   final Repository repository;
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<bool>(
+  Widget build(BuildContext context) => StreamBuilder(
     stream: repository.isSubscribed.stream,
     builder: (context, snapshot) => GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(

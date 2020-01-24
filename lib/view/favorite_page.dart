@@ -20,7 +20,7 @@ class FavoritePage extends StatelessWidget {
     body: _buildListView(),
   );
 
-  Widget _buildListView() => StreamBuilder<List<Repository>>(
+  Widget _buildListView() => StreamBuilder(
     stream: dataSource.stream,
     builder: (context, snapshot) =>  ListView.builder(
       itemCount: dataSource.value.length,
