@@ -41,15 +41,6 @@ class HomePageState extends State<HomePage> {
     appBar: AppBar(
       brightness: Brightness.dark,
       title: _buildSearchBar(),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.star,
-            color: Colors.white,
-          ),
-          onPressed: () => Navigator.of(context).pushNamed(FavoritePage.routeName),
-        )
-      ],
     ),
     body: _buildListView(),
   );

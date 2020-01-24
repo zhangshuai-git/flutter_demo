@@ -10,21 +10,21 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.dark,
-        iconTheme: IconThemeData(color: Colors.white),
-        title: Text(
-          'Favorite Repository',
-          style: TextStyle(color: Colors.white),
-        ),
+    appBar: AppBar(
+      brightness: Brightness.dark,
+      iconTheme: IconThemeData(color: Colors.white),
+      title: Text(
+        'Favorite Repository',
+        style: TextStyle(color: Colors.white),
       ),
-      body: _buildListView(),
-    );
+    ),
+    body: _buildListView(),
+  );
 
   Widget _buildListView() => StreamBuilder<void>(
     stream: dataSource.stream,
     builder: (context, snapshot) =>  ListView.builder(
-        itemCount: dataSource.value.length,
-        itemBuilder: (context, index) => RepositoryCell(dataSource.value[index])),
+      itemCount: dataSource.value.length,
+      itemBuilder: (context, index) => RepositoryCell(dataSource.value[index])),
   );
 }
