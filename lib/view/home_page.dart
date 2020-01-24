@@ -46,7 +46,6 @@ class HomePageState extends State<HomePage> {
 
   Widget _buildSearchBar() => TextField(
     controller: textEditingController,
-    autofocus: true,
     onChanged: (text) => onSearch.add(text),
     decoration: InputDecoration(
       filled: true,
