@@ -21,10 +21,12 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    repositoryBloc.bind(MergeStream([
-      onSearch.stream.debounceTime(Duration(seconds: 1)),
-      onRefresh.stream,
-    ]), onLoad.stream);
+    repositoryBloc.bind(
+      MergeStream([
+        onSearch.stream.debounceTime(Duration(seconds: 1)),
+        onRefresh.stream,
+      ]),
+      onLoad.stream);
   }
 
   @override
@@ -60,7 +62,7 @@ class HomePageState extends State<HomePage> {
           textEditingController.clear();
           onSearch.add("");
         },
-      ) ,
+      ),
       contentPadding: EdgeInsets.all(10),
     ),
   );
@@ -70,14 +72,15 @@ class HomePageState extends State<HomePage> {
     builder: (context, snapshot) {
       if (repositoryBloc.dataSource.value.items.length == 0) {
         return Center(
-          child: Text("请输入关键字\n实时搜索GitHub上的repositories\n下拉列表刷新数据，上拉加载更多数据\n点击条目查看作者信息\n点击❤️收藏条目(存入数据库)")
+          child: Text(
+            "请输入关键字\n实时搜索GitHub上的repositories\n下拉列表刷新数据，上拉加载更多数据\n点击条目查看作者信息\n点击❤️收藏条目(存入数据库)"
+          )
         );
       } else {
         return EasyRefresh(
           child: ListView.builder(
             itemCount: repositoryBloc.dataSource.value.items.length,
-            itemBuilder: (context, index) =>
-              RepositoryCell(repositoryBloc.dataSource.value.items[index])),
+            itemBuilder: (context, index) => RepositoryCell(repositoryBloc.dataSource.value.items[index])),
           onRefresh: () async => onRefresh.add(textEditingController.text),
           onLoad: () async => onLoad.add(textEditingController.text),
         );
