@@ -7,6 +7,8 @@ class TabBarController extends StatelessWidget {
       assert(pages != null),
       assert(items != null),
       assert(pages.length == items.length),
+      assert(pages.length >=2),
+      assert(items.length >=2),
       super(key: key);
 
   final List<Widget> pages;
