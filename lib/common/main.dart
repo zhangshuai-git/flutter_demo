@@ -10,9 +10,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
     theme: ThemeData(primaryColor: Colors.pink.shade200),
     home: TabBarController(
-      [HomePage(), FavoritePage()],
-      [BottomNavigationBarItem(icon: Icon(Icons.home), title: Container()),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite), title: Container())]
+      pages: [HomePage(), FavoritePage()],
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), title: Container()),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite), title: Container())
+      ],
     ),
   );
 }
