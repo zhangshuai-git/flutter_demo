@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TabBarController extends StatelessWidget {
+  TabBarController({Key key, @required this.pages, @required this.items}) :
+      assert(pages != null),
+      assert(items != null),
+      assert(pages.length == items.length),
+      super(key: key);
+
   final List<Widget> pages;
   final List<BottomNavigationBarItem> items;
   final BehaviorSubject<int> pageIndex = BehaviorSubject.seeded(0);
-
-  TabBarController({Key key, @required this.pages, @required this.items}) :
-      assert(pages != null), assert(items != null), super(key: key);
 
   @override
   Widget build(BuildContext context) => StreamBuilder(
