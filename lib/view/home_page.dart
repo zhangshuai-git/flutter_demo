@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo1/bloc/repository_bloc.dart';
-import 'package:flutter_demo1/model/entity.dart';
 import 'package:flutter_demo1/widget/repository_cell.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:rxdart/rxdart.dart';
