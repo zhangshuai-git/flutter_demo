@@ -69,20 +69,20 @@ class HomePageState extends State<HomePage> {
   Widget _buildListView() => StreamBuilder(
     stream: repositoryBloc.dataSource.stream,
     builder: (context, snapshot) {
-      if (repositoryBloc.dataSource.value.items.length == 0) {
-        return Center(
-          child: Text(
-            "请输入关键字\n实时搜索GitHub上的Repository\n下拉刷新，上拉加载更多数据\n点击条目查看作者信息\n点击❤️收藏条目(存入数据库)",
-            style: TextStyle(fontSize: 18),
-          )
-        );
-      } else {
+      if (repositoryBloc.dataSource.value.items.length > 0) {
         return EasyRefresh(
           child: ListView.builder(
             itemCount: repositoryBloc.dataSource.value.items.length,
             itemBuilder: (context, index) => RepositoryCell(repositoryBloc.dataSource.value.items[index])),
           onRefresh: () async => onRefresh.add(textEditingController.text),
           onLoad: () async => onLoad.add(textEditingController.text),
+        );
+      } else {
+        return Center(
+          child: Text(
+            "请输入关键字\n实时搜索GitHub上的Repository\n下拉刷新，上拉加载更多数据\n点击条目查看作者信息\n点击❤️收藏条目(存入数据库)",
+            style: TextStyle(fontSize: 18),
+          )
         );
       }
     },
