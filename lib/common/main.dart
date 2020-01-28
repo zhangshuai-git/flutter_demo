@@ -8,7 +8,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
-    theme: ThemeData(primaryColor: Colors.pink.shade200),
+    theme: ThemeData(primaryColor: Color(0xFFE18996)),
     home: TabBarController(
       pages: [HomePage(), FavoritePage()],
       items: [
