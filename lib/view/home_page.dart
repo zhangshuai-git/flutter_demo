@@ -73,7 +73,8 @@ class HomePageState extends State<HomePage> {
         return EasyRefresh(
           child: ListView.builder(
             itemCount: repositoryBloc.dataSource.value.items.length,
-            itemBuilder: (context, index) => RepositoryCell(repositoryBloc.dataSource.value.items[index])),
+            itemBuilder: (context, index) => RepositoryCell(repositoryBloc.dataSource.value.items[index])
+          ),
           onRefresh: () async => onRefresh.add(textEditingController.text),
           onLoad: () async => onLoad.add(textEditingController.text),
         );
