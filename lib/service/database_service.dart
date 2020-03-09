@@ -1,4 +1,4 @@
-import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/domain/entity.dart';
 import 'package:flutter_demo1/service/database_helper.dart';
 import 'package:rxdart/rxdart.dart';
 

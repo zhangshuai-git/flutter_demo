@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/domain/entity.dart';
 import 'package:flutter_demo1/service/database_service.dart';
 import 'package:flutter_demo1/widget/repository_cell.dart';
 import 'package:rxdart/rxdart.dart';

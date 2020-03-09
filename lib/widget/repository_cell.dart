@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/domain/entity.dart';
 import 'package:flutter_demo1/service/database_service.dart';
 import 'package:flutter_demo1/view/owner_page.dart';
 import 'package:flutter_demo1/utility/extension.dart';
-import 'package:flutter_demo1/model/constant.dart';
+import 'package:flutter_demo1/common/constant.dart';
 
 class RepositoryCell extends StatelessWidget {
   const RepositoryCell(this.repository, { Key key,}) : super(key: key);

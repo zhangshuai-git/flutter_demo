@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/domain/entity.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_demo1/utility/extension.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_demo1/model/entity.dart';
+import 'package:flutter_demo1/domain/entity.dart';
 
 class OwnerPage extends StatelessWidget {
   OwnerPage(this.dataSource);

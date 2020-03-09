@@ -3,7 +3,7 @@ import 'package:flutter_demo1/common/tabbar_controller.dart';
 import 'package:flutter_demo1/view/favorite_page.dart';
 import 'package:flutter_demo1/view/home_page.dart';
 import 'package:flutter_demo1/utility/extension.dart';
-import 'package:flutter_demo1/model/constant.dart';
+import 'package:flutter_demo1/common/constant.dart';
 
 void main() => runApp(MyApp());
 
