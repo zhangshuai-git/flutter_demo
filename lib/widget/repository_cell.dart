@@ -4,6 +4,7 @@ import 'package:flutter_demo1/model/entity.dart';
 import 'package:flutter_demo1/service/database_service.dart';
 import 'package:flutter_demo1/view/owner_page.dart';
 import 'package:flutter_demo1/utility/extension.dart';
+import 'package:flutter_demo1/model/constant.dart';
 
 class RepositoryCell extends StatelessWidget {
   const RepositoryCell(this.repository, { Key key,}) : super(key: key);
@@ -40,7 +41,7 @@ class RepositoryCell extends StatelessWidget {
   Widget _buildIconButton() => IconButton(
     icon: Icon(
       repository.isSubscribed.value ? Icons.favorite : Icons.favorite_border,
-      color: repository.isSubscribed.value ? Color.fromHex("#E18996") : null,
+      color: repository.isSubscribed.value ? Color.fromHex(Constant.colorPrimary) : null,
     ),
     onPressed: () {
       final isSubscribed = !repository.isSubscribed.value;
