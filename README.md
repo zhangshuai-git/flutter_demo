@@ -2,7 +2,7 @@
 
 ### A Flutter Project
 
-从自己之前iOS的RxSwift版本使用RxDart改写的例子
+从自己之前的RxSwift版本的iOS native app, 使用RxDart改写成flutter app的例子
 
 
 ## 基本功能
