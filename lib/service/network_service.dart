@@ -18,7 +18,7 @@ class NetworkService {
 
   Stream<Repositories> searchRepositories(RepositoriesParams param) {
     final url = baseUrl + "/search/repositories";
-    if (param.query == null || param.query.isEmpty) {
+    if (param.query.isNullOrEmpty()) {
       return Stream.value(Repositories());
     } else {
       log("GET: $url ${param.toJson()}");

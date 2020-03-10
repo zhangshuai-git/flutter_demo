@@ -41,7 +41,7 @@ class RepositoryCell extends StatelessWidget {
   Widget _buildIconButton() => IconButton(
     icon: Icon(
       repository.isSubscribed.value ? Icons.favorite : Icons.favorite_border,
-      color: repository.isSubscribed.value ? Color.fromHex(Constant.colorPrimary) : null,
+      color: repository.isSubscribed.value ? ColorExtension.fromHex(Constant.colorPrimary) : null,
     ),
     onPressed: () {
       final isSubscribed = !repository.isSubscribed.value;

@@ -1,5 +1,5 @@
 import 'package:stack_trace/stack_trace.dart';
-import 'dart:ui' as ui;
+import 'dart:ui';
 
 
 void log(Object object, {int index = 1}) {
@@ -10,13 +10,19 @@ void log(Object object, {int index = 1}) {
   }
 }
 
-extension Color on ui.Color {
-  static fromHex(String hexColor) {
+extension ColorExtension on Color {
+  static Color fromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) {
       hexColor = "FF" + hexColor;
     }
-    return ui.Color(int.parse(hexColor, radix: 16));
+    return Color(int.parse(hexColor, radix: 16));
+  }
+}
+
+extension StringExtension on String {
+  bool isNullOrEmpty() {
+    return this == null || this.isEmpty;
   }
 }
 
