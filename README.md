@@ -14,6 +14,6 @@
 
 
 
-从网络请求、显示Indicator、json转模型、绑定模型与UI，到数据库存储，功能很完整
+从网络请求、显示Indicator、json转model、绑定model与UI，到数据库存储，功能很完整
 
 native版本在这里： https://github.com/zhangshuai-git/RxSwiftDemo
