@@ -17,21 +17,11 @@ class _NetworkInterface implements NetworkInterface {
   String baseUrl;
 
   @override
-  searchRepositories(
-      {query,
-      sort = "stars",
-      order = "desc",
-      perPage = PER_PAGE,
-      page = 1}) async {
+  searchRepositories(param) async {
+    ArgumentError.checkNotNull(param, 'param');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      'q': query,
-      'sort': sort,
-      'order': order,
-      'per_page': perPage,
-      'page': page
-    };
-    queryParameters.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(param ?? <String, dynamic>{});
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         '/search/repositories',

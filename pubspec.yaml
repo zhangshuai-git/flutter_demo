@@ -36,7 +36,6 @@ dependencies:
   #Network
   dio: ^3.0.8
   retrofit: any
-  logger: any
 
   json_serializable: ^3.2.5
   retrofit_generator: any

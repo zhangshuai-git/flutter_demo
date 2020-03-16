@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_demo1/domain/entity.dart';
+import 'package:flutter_demo1/service/network_interface.dart';
 import 'package:flutter_demo1/utility/extension.dart';
+import 'package:rxdart/rxdart.dart';
 
 class NetworkService {
   static NetworkService _instance;
@@ -13,20 +15,25 @@ class NetworkService {
   }
   factory NetworkService.getInstance() => _getInstance();
 
-  final Dio dio = Dio();
-  static const String baseUrl = "https://api.github.com";
+//  final Dio dio = Dio();
+  final client = NetworkInterface(Dio());
+//  static const String baseUrl = "https://api.github.com";
 
   Stream<Repositories> searchRepositories(RepositoriesParams param) {
-    final url = baseUrl + "/search/repositories";
+//    final url = baseUrl + "/search/repositories";
     if (param.query.isNullOrEmpty()) {
       return Stream.value(Repositories());
     } else {
-      log("GET: $url ${param.toJson()}");
-      return dio
-        .get(url, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
-        .catchError((onError) => log("onError: $onError"))
-        .asStream()
-        .map((res) => res == null ? Repositories() : Repositories.fromJson(res.data ?? {}));
+//      log("GET: $url ${param.toJson()}");
+//      return dio
+//        .get(url, queryParameters: param.toJson(), options: Options(responseType: ResponseType.json))
+//        .catchError((onError) => log("onError: $onError"))
+//        .asStream()
+//        .map((res) => res == null ? Repositories() : Repositories.fromJson(res.data ?? {}));
+    return client
+      .searchRepositories(param.toJson())
+      .asStream()
+      .doOnData((Repositories it) => log(it));
     }
   }
 }

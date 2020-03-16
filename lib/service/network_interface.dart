@@ -9,12 +9,6 @@ abstract class NetworkInterface {
   factory NetworkInterface(Dio dio, {String baseUrl}) = _NetworkInterface;
 
   @GET("/search/repositories")
-  Future<Repositories> searchRepositories({
-    @Query("q") String query,
-    @Query("sort") String sort = "stars",
-    @Query("order") String order = "desc",
-    @Query("per_page") int perPage = PER_PAGE,
-    @Query("page") int page = 1
-  });
+  Future<Repositories> searchRepositories(@Queries() Map<String, dynamic> param);
 
 }
